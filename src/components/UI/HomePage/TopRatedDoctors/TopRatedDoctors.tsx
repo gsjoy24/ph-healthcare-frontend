@@ -1,6 +1,6 @@
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Button, Container, Grid, Typography } from '@mui/material';
 
-import DoctorCard from './DorcotCard';
+import DoctorCard from './DorcorCard';
 
 const TopRatedDoctors = async () => {
 	const res = await fetch('http://localhost:5000/api/v1/doctors?page=1&limit=3', {
@@ -35,7 +35,11 @@ const TopRatedDoctors = async () => {
 			</Box>
 
 			{/* doctors */}
-			<Container>
+			<Container
+				sx={{
+					margin: '30px auto'
+				}}
+			>
 				<Grid container spacing={3}>
 					{doctors.map((doctor: any) => (
 						<Grid item key={doctor._id} xs={12} sm={6} md={4}>
@@ -43,6 +47,15 @@ const TopRatedDoctors = async () => {
 						</Grid>
 					))}
 				</Grid>
+				<Box
+					sx={{
+						textAlign: 'center'
+					}}
+				>
+					<Button variant='outlined' sx={{ mt: 5 }}>
+						View All
+					</Button>
+				</Box>
 			</Container>
 		</Box>
 	);
