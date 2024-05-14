@@ -13,19 +13,19 @@ const Navbar = () => {
 					Health Care
 				</Typography>
 				<Stack direction='row' justifyContent='space-between' alignItems='center' gap={4}>
-					<Typography component={Link} href='/consultation'>
+					<Typography className='hover:text-blue-500 duration-200' component={Link} href='/consultation'>
 						Consultation
 					</Typography>
-					<Typography component={Link} href='/'>
+					<Typography className='hover:text-blue-500 duration-200' component={Link} href='/'>
 						Health Plans
 					</Typography>
-					<Typography component={Link} href='/'>
+					<Typography className='hover:text-blue-500 duration-200' component={Link} href='/'>
 						Medicines
 					</Typography>
-					<Typography component={Link} href='/'>
+					<Typography className='hover:text-blue-500 duration-200' component={Link} href='/'>
 						Diagnostics
 					</Typography>
-					<Typography component={Link} href='/'>
+					<Typography className='hover:text-blue-500 duration-200' component={Link} href='/'>
 						NGOs
 					</Typography>
 				</Stack>

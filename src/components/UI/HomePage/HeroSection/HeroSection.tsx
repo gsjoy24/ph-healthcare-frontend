@@ -22,7 +22,7 @@ const HeroSection = () => {
 					sx={{
 						position: 'absolute',
 						width: '700px',
-						top: '-90px',
+						top: '-120px',
 						left: '-120px'
 					}}
 				>
