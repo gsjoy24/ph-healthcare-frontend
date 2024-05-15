@@ -1,12 +1,13 @@
 'use client';
 import assets from '@/assets';
+import PHForm from '@/components/forms/PHForm';
 import userLogin from '@/services/actions/userLogin';
 import { storeUserInfo } from '@/services/auth.services';
 import { Box, Button, Container, Grid, Stack, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 type Inputs = {
@@ -16,20 +17,13 @@ type Inputs = {
 
 const LoginPage = () => {
 	const router = useRouter();
-	const {
-		register,
-		handleSubmit,
-		watch,
-		reset,
-		formState: { errors }
-	} = useForm<Inputs>();
-	const onSubmit: SubmitHandler<Inputs> = async (data) => {
+
+	const handleLogin = async (data: FieldValues) => {
 		try {
 			const res = await userLogin(data);
 			if (res.success) {
 				toast.success(res.message);
 				storeUserInfo(res?.data?.accessToken);
-				reset();
 				router.push('/');
 			} else {
 				toast.error(res.message);
@@ -68,7 +62,7 @@ const LoginPage = () => {
 					</Stack>
 
 					<Box>
-						<form onSubmit={handleSubmit(onSubmit)}>
+						<PHForm onSubmit={handleLogin}>
 							<Grid container spacing={2} my={1}>
 								<Grid item md={6}>
 									<TextField label='Email' variant='outlined' size='small' fullWidth {...register('email')} />
@@ -110,7 +104,7 @@ const LoginPage = () => {
 									</Link>
 								</Typography>
 							</Box>
-						</form>
+						</PHForm>
 					</Box>
 				</Box>
 			</Stack>

@@ -1,6 +1,8 @@
 'use client';
 import assets from '@/assets';
 import registerPatient from '@/services/actions/registerPatient';
+import userLogin from '@/services/actions/userLogin';
+import { storeUserInfo } from '@/services/auth.services';
 import modifiedPayload from '@/utils/modifiedPayload';
 import { Box, Button, Container, Grid, Stack, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
@@ -33,7 +35,12 @@ const RegisterPage = () => {
 			const res = await registerPatient(modifiedData);
 			if (res.success) {
 				toast.success(res.message);
-				router.push('/login');
+				const login = await userLogin({ email: data.patient.email, password: data.password });
+				if (login.success) {
+					toast.success(login.message);
+					storeUserInfo(login?.data?.accessToken);
+					router.push('/');
+				}
 			}
 		} catch (error) {
 			console.log(error);

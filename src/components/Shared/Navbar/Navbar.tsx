@@ -1,18 +1,11 @@
 'use client';
-import { getUserInfo, logout } from '@/services/auth.services';
-import { Box, Button, Container, Stack, Typography } from '@mui/material';
+// import AuthButton from '@/components/UI/AuthButton/AuthButton';
+import { Box, Container, Stack, Typography } from '@mui/material';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
-	const userData = getUserInfo();
-	const router = useRouter();
-
-	const handleLogout = () => {
-		logout();
-		router.refresh();
-	};
-
+	const AuthButton = dynamic(() => import('@/components/UI/AuthButton/AuthButton'), { ssr: false });
 	return (
 		<Container>
 			<Stack py={2} direction='row' justifyContent='space-between'>
@@ -40,13 +33,7 @@ const Navbar = () => {
 						NGOs
 					</Typography>
 				</Stack>
-				{userData?.email ? (
-					<Button onClick={handleLogout}>Logout</Button>
-				) : (
-					<Button component={Link} href='/login'>
-						Login
-					</Button>
-				)}
+				<AuthButton />
 			</Stack>
 		</Container>
 	);
