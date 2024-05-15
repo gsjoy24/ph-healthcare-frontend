@@ -1,19 +1,15 @@
 'use client';
 import assets from '@/assets';
 import PHForm from '@/components/forms/PHForm';
+import PHInput from '@/components/forms/PHInput';
 import userLogin from '@/services/actions/userLogin';
 import { storeUserInfo } from '@/services/auth.services';
-import { Box, Button, Container, Grid, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Container, Grid, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form';
 import { toast } from 'sonner';
-
-type Inputs = {
-	email: string;
-	password: string;
-};
 
 const LoginPage = () => {
 	const router = useRouter();
@@ -29,7 +25,6 @@ const LoginPage = () => {
 				toast.error(res.message);
 			}
 		} catch (error: any) {
-			console.log(error);
 			toast.error(error?.message);
 		}
 	};
@@ -65,17 +60,10 @@ const LoginPage = () => {
 						<PHForm onSubmit={handleLogin}>
 							<Grid container spacing={2} my={1}>
 								<Grid item md={6}>
-									<TextField label='Email' variant='outlined' size='small' fullWidth {...register('email')} />
+									<PHInput label='Email' name='email' />
 								</Grid>
 								<Grid item md={6}>
-									<TextField
-										label='Password'
-										type='password'
-										variant='outlined'
-										size='small'
-										fullWidth
-										{...register('password')}
-									/>
+									<PHInput label='Password' name='password' type='password' />
 								</Grid>
 							</Grid>
 
