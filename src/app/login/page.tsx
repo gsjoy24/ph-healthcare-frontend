@@ -1,9 +1,42 @@
+'use client';
 import assets from '@/assets';
+import userLogin from '@/services/actions/userLogin';
 import { Box, Button, Container, Grid, Stack, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+
+type Inputs = {
+	email: string;
+	password: string;
+};
 
 const LoginPage = () => {
+	const router = useRouter();
+	const {
+		register,
+		handleSubmit,
+		watch,
+		reset,
+		formState: { errors }
+	} = useForm<Inputs>();
+	const onSubmit: SubmitHandler<Inputs> = async (data) => {
+		try {
+			const res = await userLogin(data);
+			if (res.success) {
+				toast.success(res.message);
+				reset();
+				// router.push('/login');
+			} else {
+				toast.error(res.message);
+			}
+		} catch (error: any) {
+			console.log(error);
+			toast.error(error?.message);
+		}
+	};
 	return (
 		<Container>
 			<Stack sx={{ height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
@@ -33,13 +66,20 @@ const LoginPage = () => {
 					</Stack>
 
 					<Box>
-						<form>
+						<form onSubmit={handleSubmit(onSubmit)}>
 							<Grid container spacing={2} my={1}>
 								<Grid item md={6}>
-									<TextField label='Email' variant='outlined' size='small' fullWidth />
+									<TextField label='Email' variant='outlined' size='small' fullWidth {...register('email')} />
 								</Grid>
 								<Grid item md={6}>
-									<TextField label='Password' type='password' variant='outlined' size='small' fullWidth />
+									<TextField
+										label='Password'
+										type='password'
+										variant='outlined'
+										size='small'
+										fullWidth
+										{...register('password')}
+									/>
 								</Grid>
 							</Grid>
 
@@ -51,6 +91,7 @@ const LoginPage = () => {
 							</Link>
 
 							<Button
+								type='submit'
 								sx={{
 									my: 2
 								}}

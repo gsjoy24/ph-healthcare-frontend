@@ -5,7 +5,9 @@ import modifiedPayload from '@/utils/modifiedPayload';
 import { Box, Button, Container, Grid, Stack, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 type Inputs = {
 	password: string;
@@ -18,6 +20,7 @@ type Inputs = {
 };
 
 const RegisterPage = () => {
+	const router = useRouter();
 	const {
 		register,
 		handleSubmit,
@@ -28,7 +31,10 @@ const RegisterPage = () => {
 		const modifiedData = modifiedPayload(data);
 		try {
 			const res = await registerPatient(modifiedData);
-			console.log(res);
+			if (res.success) {
+				toast.success(res.message);
+				router.push('/login');
+			}
 		} catch (error) {
 			console.log(error);
 		}
