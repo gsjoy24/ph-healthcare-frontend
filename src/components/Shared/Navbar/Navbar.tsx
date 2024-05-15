@@ -1,10 +1,18 @@
 'use client';
-import { getUserInfo, isLoggedIn, logout } from '@/services/auth.services';
+import { getUserInfo, logout } from '@/services/auth.services';
 import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
 	const userData = getUserInfo();
+	const router = useRouter();
+
+	const handleLogout = () => {
+		logout();
+		router.refresh();
+	};
+
 	return (
 		<Container>
 			<Stack py={2} direction='row' justifyContent='space-between'>
@@ -32,8 +40,8 @@ const Navbar = () => {
 						NGOs
 					</Typography>
 				</Stack>
-				{isLoggedIn() ? (
-					<Button onClick={logout}>Logout</Button>
+				{userData?.email ? (
+					<Button onClick={handleLogout}>Logout</Button>
 				) : (
 					<Button component={Link} href='/login'>
 						Login
