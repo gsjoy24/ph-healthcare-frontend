@@ -1,4 +1,4 @@
-import { authKey } from '@/constants/authkey';
+import { authKey } from '@/constants/authKey';
 import { decodeToken } from '@/utils/jwt';
 import { getFromLocalStorage, setTOLocalStorage } from '@/utils/local-storage';
 
@@ -14,4 +14,13 @@ export const getUserInfo = () => {
 		...userData,
 		role: userData?.role?.toLowerCase()
 	};
+};
+
+export const isLoggedIn = () => {
+	const authToken = getFromLocalStorage(authKey);
+	return authToken ? true : false;
+};
+
+export const logout = () => {
+	return localStorage.removeItem(authKey);
 };

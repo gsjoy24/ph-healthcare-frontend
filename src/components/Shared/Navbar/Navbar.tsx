@@ -1,5 +1,5 @@
 'use client';
-import { getUserInfo } from '@/services/auth.services';
+import { getUserInfo, isLoggedIn, logout } from '@/services/auth.services';
 import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
 
@@ -32,9 +32,13 @@ const Navbar = () => {
 						NGOs
 					</Typography>
 				</Stack>
-				<Button component={Link} href='/login'>
-					Login
-				</Button>
+				{isLoggedIn() ? (
+					<Button onClick={logout}>Logout</Button>
+				) : (
+					<Button component={Link} href='/login'>
+						Login
+					</Button>
+				)}
 			</Stack>
 		</Container>
 	);
