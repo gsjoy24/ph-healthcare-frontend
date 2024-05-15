@@ -1,5 +1,6 @@
 'use client';
 import assets from '@/assets';
+import registerPatient from '@/services/actions/registerPatient';
 import modifiedPayload from '@/utils/modifiedPayload';
 import { Box, Button, Container, Grid, Stack, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
@@ -23,9 +24,14 @@ const RegisterPage = () => {
 		watch,
 		formState: { errors }
 	} = useForm<Inputs>();
-	const onSubmit: SubmitHandler<Inputs> = (data) => {
+	const onSubmit: SubmitHandler<Inputs> = async (data) => {
 		const modifiedData = modifiedPayload(data);
-		console.log(modifiedData);
+		try {
+			const res = await registerPatient(modifiedData);
+			console.log(res);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 	return (
 		<Container>
