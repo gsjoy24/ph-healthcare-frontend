@@ -1,7 +1,7 @@
 'use client';
 import assets from '@/assets';
 import userLogin from '@/services/actions/userLogin';
-import storeUserInfo from '@/services/auth.services';
+import { storeUserInfo } from '@/services/auth.services';
 import { Box, Button, Container, Grid, Stack, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -29,8 +29,8 @@ const LoginPage = () => {
 			if (res.success) {
 				toast.success(res.message);
 				storeUserInfo(res?.data?.accessToken);
-				// reset();
-				// router.push('/login');
+				reset();
+				router.push('/');
 			} else {
 				toast.error(res.message);
 			}

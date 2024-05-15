@@ -1,8 +1,17 @@
 import { authKey } from '@/constants/authkey';
-import { setTOLocalStorage } from '@/utils/local-storage';
+import { decodeToken } from '@/utils/jwt';
+import { getFromLocalStorage, setTOLocalStorage } from '@/utils/local-storage';
 
-const storeUserInfo = (token: string) => {
+export const storeUserInfo = (token: string) => {
 	return setTOLocalStorage(authKey, token);
 };
 
-export default storeUserInfo;
+export const getUserInfo = () => {
+	const authToken = getFromLocalStorage(authKey);
+	if (!authToken) return null;
+	const userData: any = decodeToken(authToken);
+	return {
+		...userData,
+		role: userData?.role?.toLowerCase()
+	};
+};

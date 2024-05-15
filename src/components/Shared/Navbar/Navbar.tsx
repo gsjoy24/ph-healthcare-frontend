@@ -1,7 +1,10 @@
+'use client';
+import { getUserInfo } from '@/services/auth.services';
 import { Box, Button, Container, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
 
 const Navbar = () => {
+	const userData = getUserInfo();
 	return (
 		<Container>
 			<Stack py={2} direction='row' justifyContent='space-between'>
