@@ -1,12 +1,35 @@
+'use client';
 import assets from '@/assets';
+import modifiedPayload from '@/utils/modifiedPayload';
 import { Box, Button, Container, Grid, Stack, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+type Inputs = {
+	password: string;
+	patient: {
+		name: string;
+		email: string;
+		phone: string;
+		address: string;
+	};
+};
 
 const RegisterPage = () => {
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors }
+	} = useForm<Inputs>();
+	const onSubmit: SubmitHandler<Inputs> = (data) => {
+		const modifiedData = modifiedPayload(data);
+		console.log(modifiedData);
+	};
 	return (
 		<Container>
-			<Stack justifyContent='center' alignItems='center'>
+			<Stack sx={{ height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
 				<Box
 					sx={{
 						maxWidth: '600px',
@@ -33,22 +56,42 @@ const RegisterPage = () => {
 					</Stack>
 
 					<Box>
-						<form>
+						<form onSubmit={handleSubmit(onSubmit)}>
 							<Grid container spacing={2} my={1}>
 								<Grid item md={12} sm={12}>
-									<TextField label='Name' variant='outlined' size='small' fullWidth />
+									<TextField label='Name' variant='outlined' size='small' fullWidth {...register('patient.name')} />
 								</Grid>
 								<Grid item md={6}>
-									<TextField label='Email' variant='outlined' size='small' fullWidth />
+									<TextField label='Email' variant='outlined' size='small' fullWidth {...register('patient.email')} />
 								</Grid>
 								<Grid item md={6}>
-									<TextField label='Password' type='password' variant='outlined' size='small' fullWidth />
+									<TextField
+										label='Password'
+										type='password'
+										variant='outlined'
+										size='small'
+										fullWidth
+										{...register('password')}
+									/>
 								</Grid>
 								<Grid item md={6}>
-									<TextField label='Contact Number' type='tel' variant='outlined' size='small' fullWidth />
+									<TextField
+										label='Contact Number'
+										type='tel'
+										variant='outlined'
+										size='small'
+										fullWidth
+										{...register('patient.phone')}
+									/>
 								</Grid>
 								<Grid item md={6}>
-									<TextField label='Address' variant='outlined' size='small' fullWidth />
+									<TextField
+										label='Address'
+										variant='outlined'
+										size='small'
+										fullWidth
+										{...register('patient.address')}
+									/>
 								</Grid>
 							</Grid>
 
@@ -57,6 +100,7 @@ const RegisterPage = () => {
 									my: 2
 								}}
 								fullWidth
+								type='submit'
 							>
 								Register
 							</Button>
@@ -64,9 +108,9 @@ const RegisterPage = () => {
 							<Box>
 								<Typography variant='body2' align='center'>
 									Already have an account?
-									<Button color='primary' variant='text' component={Link} href='/login'>
+									<Link href='/login' className='px-2 hover:text-blue-600 duration-200'>
 										Login
-									</Button>
+									</Link>
 								</Typography>
 							</Box>
 						</form>
