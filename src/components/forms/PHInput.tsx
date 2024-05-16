@@ -1,5 +1,6 @@
 import { SxProps, TextField } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
+import { CiWarning } from 'react-icons/ci';
 
 type PHInputProps = {
 	label?: string;
@@ -16,7 +17,7 @@ const PHInput = ({ label, type = 'text', name, sx, required }: PHInputProps) => 
 		<Controller
 			control={control}
 			name={name}
-			render={({ field }) => (
+			render={({ field, fieldState: { error } }) => (
 				<TextField
 					{...field}
 					sx={{ ...sx }}
@@ -26,7 +27,9 @@ const PHInput = ({ label, type = 'text', name, sx, required }: PHInputProps) => 
 					variant='outlined'
 					size='small'
 					fullWidth
-					required={required || true}
+					required={required || false}
+					error={!!error?.message}
+					helperText={` ${(<CiWarning />)} ${error?.message}`}
 				/>
 			)}
 		/>
