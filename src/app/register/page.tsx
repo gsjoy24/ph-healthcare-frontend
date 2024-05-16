@@ -6,12 +6,32 @@ import registerPatient from '@/services/actions/registerPatient';
 import userLogin from '@/services/actions/userLogin';
 import { storeUserInfo } from '@/services/auth.services';
 import modifiedPayload from '@/utils/modifiedPayload';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, Button, Container, Grid, Stack, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { z } from 'zod';
+
+const RegisterValidationSchema = z.object({
+	patient: z.object({
+		name: z.string({ required_error: 'Please enter the name!' }),
+		email: z.string({ required_error: 'Please enter the email!' }).email({
+			message: 'Invalid email address!'
+		}),
+		phone: z
+			.string({ required_error: 'Please enter the phone number!' })
+			.regex(/^\d{11}$/, 'Phone number must be 11 digits!'),
+		address: z.string({ required_error: 'Please enter the address!' })
+	}),
+	password: z
+		.string({
+			required_error: 'Please enter the password!'
+		})
+		.min(6, 'Password must be at least 6 characters!')
+});
 
 const RegisterPage = () => {
 	const router = useRouter();
@@ -62,7 +82,7 @@ const RegisterPage = () => {
 					</Stack>
 
 					<Box>
-						<PHForm onSubmit={onSubmit}>
+						<PHForm onSubmit={onSubmit} resolver={zodResolver(RegisterValidationSchema)}>
 							<Grid container spacing={2} my={1}>
 								<Grid item md={12} sm={12}>
 									<PHInput label='Name' name='patient.name' />

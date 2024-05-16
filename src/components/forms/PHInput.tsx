@@ -29,7 +29,13 @@ const PHInput = ({ label, type = 'text', name, sx, required }: PHInputProps) => 
 					fullWidth
 					required={required || false}
 					error={!!error?.message}
-					helperText={` ${(<CiWarning />)} ${error?.message}`}
+					helperText={
+						error?.message && (
+							<div className='flex items-center gap-1 relative right-3'>
+								<CiWarning size={16} /> {error?.message}
+							</div>
+						)
+					}
 				/>
 			)}
 		/>
