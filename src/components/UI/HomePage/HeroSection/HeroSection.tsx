@@ -39,7 +39,7 @@ const HeroSection = () => {
 				<Typography variant='h3' component='h1' fontWeight={500} color='primary.main'>
 					Preventive Care
 				</Typography>
-				<Typography component='p' className='py-4'>
+				<Typography component='p' py={2}>
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci ratione doloremque dolore nulla quis
 					officiis necessitatibus amet dicta temporibus cum quas explicabo itaque eum quam beatae.
 				</Typography>

@@ -13,7 +13,7 @@ const DoctorCard = ({ doctor }: any) => {
 		<Card>
 			<Box>
 				<Image
-					className='max-h-[260px] object-cover object-top'
+					style={{ objectFit: 'cover', objectPosition: 'top', maxHeight: '260px' }}
 					src={doctor.profilePhoto}
 					alt={doctor.name}
 					width={500}

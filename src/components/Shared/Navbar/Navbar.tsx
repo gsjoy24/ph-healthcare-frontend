@@ -1,18 +1,11 @@
 'use client';
+import navLinks from '@/utils/navLinks';
 // import AuthButton from '@/components/UI/AuthButton/AuthButton';
 import { Box, Container, Stack, Typography } from '@mui/material';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 const Navbar = () => {
-	const navLinks = [
-		{ title: 'Consultation', href: '/consultation' },
-		{ title: 'Health Plans', href: '/' },
-		{ title: 'Medicines', href: '/' },
-		{ title: 'Diagnostics', href: '/' },
-		{ title: 'NGOs', href: '/' }
-	];
-
 	const AuthButton = dynamic(() => import('@/components/UI/AuthButton/AuthButton'), { ssr: false });
 	return (
 		<Container>

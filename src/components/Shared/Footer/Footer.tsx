@@ -2,6 +2,7 @@ import facebookIcon from '@/assets/landing_page/facebook.png';
 import instagramIcon from '@/assets/landing_page/instagram.png';
 import linkedin from '@/assets/landing_page/linkedin.png';
 import twitterIcon from '@/assets/landing_page/twitter.png';
+import navLinks from '@/utils/navLinks';
 import { Box, Container, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,21 +13,33 @@ const Footer = () => {
 			<Container>
 				{/* links */}
 				<Stack direction='row' justifyContent='center' py={2} alignItems='center' gap={4}>
-					<Typography color='#fff' component={Link} href='/consultation'>
-						Consultation
-					</Typography>
-					<Typography color='#fff' component={Link} href='/'>
-						Health Plans
-					</Typography>
-					<Typography color='#fff' component={Link} href='/'>
-						Medicines
-					</Typography>
-					<Typography color='#fff' component={Link} href='/'>
-						Diagnostics
-					</Typography>
-					<Typography color='#fff' component={Link} href='/'>
-						NGOs
-					</Typography>
+					{navLinks.map((link, index) => (
+						<Typography
+							key={index}
+							color='#000'
+							component={Link}
+							href={link.href}
+							sx={{
+								display: 'flex',
+								flexDirection: 'column',
+								justifyContent: 'center',
+								alignItems: 'center',
+								color: '#fff',
+								'& span': {
+									width: '0%',
+									height: 2,
+									backgroundColor: 'primary.main',
+									transition: 'width 0.2s ease'
+								},
+								'&:hover span': {
+									width: '100%'
+								}
+							}}
+						>
+							{link.title}
+							<span></span>
+						</Typography>
+					))}
 				</Stack>
 
 				{/* social links */}
