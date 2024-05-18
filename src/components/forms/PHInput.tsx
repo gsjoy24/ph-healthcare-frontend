@@ -1,4 +1,4 @@
-import { SxProps, TextField } from '@mui/material';
+import { Box, SxProps, TextField } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 import { CiWarning } from 'react-icons/ci';
 
@@ -31,9 +31,17 @@ const PHInput = ({ label, type = 'text', name, sx, required }: PHInputProps) => 
 					error={!!error?.message}
 					helperText={
 						error?.message && (
-							<div className='flex items-center gap-1 relative right-3'>
+							<Box
+								sx={{
+									display: 'flex',
+									alignItems: 'center',
+									gap: 1,
+									position: 'relative',
+									right: 10
+								}}
+							>
 								<CiWarning size={16} /> {error?.message}
-							</div>
+							</Box>
 						)
 					}
 				/>

@@ -97,13 +97,27 @@ const LoginPage = () => {
 								Login
 							</Button>
 
-							<Box>
-								<Typography variant='body2' align='center'>
-									Don&#39;t have an account?
-									<Link href='/register' className='px-2 hover:text-blue-600 duration-200'>
-										Register
-									</Link>
-								</Typography>
+							{/* bottom text */}
+							<Box
+								sx={{
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+									gap: 1
+								}}
+							>
+								<Typography>Don&#39;t have an account?</Typography>
+								<Link href='/register'>
+									<Typography
+										sx={{
+											color: 'primary.main',
+											cursor: 'pointer',
+											fontSize: '1rem'
+										}}
+									>
+										Create an account
+									</Typography>
+								</Link>
 							</Box>
 						</PHForm>
 					</Box>

@@ -112,13 +112,26 @@ const RegisterPage = () => {
 								Register
 							</Button>
 
-							<Box>
-								<Typography variant='body2' align='center'>
-									Already have an account?
-									<Link href='/login' className='px-2 hover:text-blue-600 duration-200'>
+							<Box
+								sx={{
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+									gap: 1
+								}}
+							>
+								<Typography>Already have an account?</Typography>
+								<Link href='/login'>
+									<Typography
+										sx={{
+											color: 'primary.main',
+											cursor: 'pointer',
+											fontSize: '1rem'
+										}}
+									>
 										Login
-									</Link>
-								</Typography>
+									</Typography>
+								</Link>
 							</Box>
 						</PHForm>
 					</Box>

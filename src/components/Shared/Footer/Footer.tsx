@@ -10,6 +10,7 @@ const Footer = () => {
 	return (
 		<Box bgcolor={'#0c1133'} py={5}>
 			<Container>
+				{/* links */}
 				<Stack direction='row' justifyContent='center' py={2} alignItems='center' gap={4}>
 					<Typography color='#fff' component={Link} href='/consultation'>
 						Consultation
@@ -28,17 +29,27 @@ const Footer = () => {
 					</Typography>
 				</Stack>
 
+				{/* social links */}
 				<Stack direction='row' justifyContent='center' py={4} alignItems='center' gap={2}>
 					<Image src={facebookIcon} alt='facebook' width={30} height={30} />
 					<Image src={instagramIcon} alt='facebook' width={30} height={30} />
 					<Image src={linkedin} alt='facebook' width={30} height={30} />
 					<Image src={twitterIcon} alt='facebook' width={30} height={30} />
 				</Stack>
-				<div className='border-b-[1px] border-dashed'></div>
+
+				{/* divider */}
+				<Box
+					sx={{
+						borderBottom: '1px dashed #fff'
+					}}
+				></Box>
+
+				{/* text */}
 				<Stack direction='row' justifyContent='space-between' py={3} alignItems='center'>
 					<Typography color='#fff' component='p'>
 						&copy; 2024 PHealthCare. All Rights Reserved.
 					</Typography>
+
 					<Typography color='#fff' variant='h4' component={Link} href='/' fontWeight={500}>
 						P
 						<Box component='span' color='primary.main'>
@@ -46,6 +57,7 @@ const Footer = () => {
 						</Box>{' '}
 						Health Care
 					</Typography>
+
 					<Typography color='#fff' component='p'>
 						Privacy Policy | Terms and Conditions
 					</Typography>
