@@ -37,7 +37,8 @@ instance.interceptors.response.use(
 	},
 	function (error) {
 		const responseObj: TGenericErrorResponse = {
-			statusCode: error?.response?.data?.statusCode || 500,
+			success: error?.response?.data?.success,
+			statusCode: error?.response?.status || 500,
 			message: error?.response?.data?.message || 'Something went wrong!',
 			errorMassages: error?.response?.data?.message || 'Something went wrong!'
 		};

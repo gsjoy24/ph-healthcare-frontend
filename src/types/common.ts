@@ -24,6 +24,7 @@ export type TResponseSuccess = {
 };
 
 export type TGenericErrorResponse = {
+	success: boolean;
 	statusCode: number;
 	message: string;
 	errorMassages: TGenericErrorMessage[];
