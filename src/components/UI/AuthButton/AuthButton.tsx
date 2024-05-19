@@ -1,5 +1,5 @@
 import { getUserInfo, logout } from '@/services/auth.services';
-import { Button } from '@mui/material';
+import { Button, Skeleton } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -14,7 +14,7 @@ const AuthButton = () => {
 
 	return (
 		<>
-			{userData?.email ? (
+			{userData && userData?.email ? (
 				<Button onClick={handleLogout}>Logout</Button>
 			) : (
 				<Button component={Link} href='/login'>

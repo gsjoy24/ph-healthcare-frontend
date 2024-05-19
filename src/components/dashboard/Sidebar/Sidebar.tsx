@@ -1,22 +1,23 @@
 import assets from '@/assets';
-import { USER_ROLES } from '@/constants/role';
+import { getUserInfo } from '@/services/auth.services';
 import { TUserRole } from '@/types';
 import { drawerItems } from '@/utils/drawerItems';
-import MailIcon from '@mui/icons-material/Mail';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import { Stack, Toolbar, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import SidebarItem from './SidebarItem';
 
 const Sidebar = () => {
+	const [userRole, setUserRole] = useState('');
+	useEffect(() => {
+		const userInfo = getUserInfo() as any;
+		setUserRole(userInfo?.role);
+	}, []);
+
 	return (
 		<Box>
 			<Stack
@@ -33,7 +34,7 @@ const Sidebar = () => {
 			</Stack>
 			<Divider />
 			<List>
-				{drawerItems(USER_ROLES.ADMIN as TUserRole).map((item, index) => (
+				{drawerItems(userRole as TUserRole).map((item, index) => (
 					<SidebarItem key={index} item={item} />
 				))}
 			</List>
