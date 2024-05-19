@@ -26,14 +26,14 @@ type TModalProps = {
 	sx?: SxProps;
 };
 
-const PHModal = ({ open, setOpen, title, children }: TModalProps) => {
+const PHModal = ({ open = false, setOpen, title = '', children, sx }: TModalProps) => {
 	const handleClose = () => {
 		setOpen(false);
 	};
 
 	return (
 		<React.Fragment>
-			<BootstrapDialog onClose={handleClose} aria-labelledby='customized-dialog-title' open={open}>
+			<BootstrapDialog onClose={handleClose} aria-labelledby='customized-dialog-title' open={open} sx={{ ...sx }}>
 				<DialogTitle sx={{ m: 0, p: 2 }} id='customized-dialog-title'>
 					{title}
 				</DialogTitle>
@@ -50,11 +50,6 @@ const PHModal = ({ open, setOpen, title, children }: TModalProps) => {
 					<CloseIcon />
 				</IconButton>
 				<DialogContent dividers>{children}</DialogContent>
-				<DialogActions>
-					<Button autoFocus onClick={handleClose}>
-						Save changes
-					</Button>
-				</DialogActions>
 			</BootstrapDialog>
 		</React.Fragment>
 	);
