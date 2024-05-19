@@ -16,6 +16,7 @@ const SidebarItem = ({ item }: { item: TDrawerItem }) => {
 				sx={{
 					...(pathname === pathLink
 						? {
+								transition: '0.2s',
 								borderRight: '4px solid #1586fd',
 								'& svg': {
 									color: '#1586fd'

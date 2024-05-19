@@ -24,7 +24,7 @@ const Sidebar = () => {
 				direction='row'
 				justifyContent='center'
 				alignItems='center'
-				sx={{ p: 1 }}
+				sx={{ p: 2 }}
 				gap={1}
 				component={Link}
 				href={'/'}
