@@ -38,7 +38,10 @@ export default function DashboardDrawer({ children }: { children: React.ReactNod
 				position='fixed'
 				sx={{
 					width: { sm: `calc(100% - ${drawerWidth}px)` },
-					ml: { sm: `${drawerWidth}px` }
+					ml: { sm: `${drawerWidth}px` },
+					bgcolor: '#f4f7fe',
+					boxShadow: 'none',
+					borderBottom: '1px solid #e0e0e0'
 				}}
 			>
 				<Toolbar>
@@ -47,13 +50,15 @@ export default function DashboardDrawer({ children }: { children: React.ReactNod
 						aria-label='open drawer'
 						edge='start'
 						onClick={handleDrawerToggle}
-						sx={{ mr: 2, display: { sm: 'none' } }}
+						sx={{ mr: 2, display: { sm: 'none' }, color: 'primary.main' }}
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant='h6' noWrap component='div'>
-						Responsive drawer
-					</Typography>
+					<Box>
+						<Typography variant='body2' noWrap component='div' color='gray'>
+							Hi, Gour Saha Joy
+						</Typography>
+					</Box>
 				</Toolbar>
 			</AppBar>
 			<Box component='nav' sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label='mailbox folders'>
