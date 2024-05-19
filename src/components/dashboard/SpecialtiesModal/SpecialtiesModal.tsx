@@ -2,7 +2,9 @@ import PHModal from '@/components/Shared/PHModal/PHModal';
 import PHFileUploader from '@/components/forms/PHFileUploader';
 import PHForm from '@/components/forms/PHForm';
 import PHInput from '@/components/forms/PHInput';
+import modifiedPayload from '@/utils/modifiedPayload';
 import { Button, Grid, TextField } from '@mui/material';
+import { FieldValues } from 'react-hook-form';
 
 type TProps = {
 	open: boolean;
@@ -10,7 +12,12 @@ type TProps = {
 };
 
 const SpecialtiesModal = ({ open, setOpen }: TProps) => {
-	const handleFormSubmit = () => {};
+	const handleFormSubmit = (values: FieldValues) => {
+		const data = modifiedPayload(values);
+
+		try {
+		} catch (error) {}
+	};
 	return (
 		<PHModal open={open} setOpen={setOpen} title='Create a New Specialty'>
 			<PHForm onSubmit={handleFormSubmit}>
