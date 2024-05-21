@@ -42,7 +42,6 @@ instance.interceptors.response.use(
 			message: error?.response?.data?.message || 'Something went wrong!',
 			errorMassages: error?.response?.data?.message || 'Something went wrong!'
 		};
-		// return Promise.reject(error);
 		return responseObj;
 	}
 );
