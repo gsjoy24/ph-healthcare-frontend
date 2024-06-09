@@ -1,5 +1,5 @@
 import { getUserInfo, logout } from '@/services/auth.services';
-import { Button, Skeleton } from '@mui/material';
+import { Button } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 

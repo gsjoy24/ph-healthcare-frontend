@@ -1,10 +1,13 @@
 'use client';
 import SpecialtiesModal from '@/components/dashboard/SpecialtiesModal/SpecialtiesModal';
-import { Box, Button, Stack, TextField } from '@mui/material';
+import { useGetSpecialtiesQuery } from '@/redux/api/specialtiesApi';
+import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 
 const Specialties = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+	const { data, isLoading } = useGetSpecialtiesQuery(null);
 
 	return (
 		<Box>
@@ -13,6 +16,10 @@ const Specialties = () => {
 				<SpecialtiesModal open={isModalOpen} setOpen={setIsModalOpen} />
 				<TextField size='small' placeholder='Search Specialties' />
 			</Stack>
+
+			<Box>
+				<Typography variant='h6'>Specialties</Typography>
+			</Box>
 		</Box>
 	);
 };
