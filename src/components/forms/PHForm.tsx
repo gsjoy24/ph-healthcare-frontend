@@ -2,9 +2,13 @@ import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-fo
 type TFormConfig = {
 	resolver?: any;
 };
-type TPHFormProps = { children: React.ReactNode; onSubmit: SubmitHandler<FieldValues> } & TFormConfig;
+type TPHFormProps = {
+	children: React.ReactNode;
+	onSubmit: SubmitHandler<FieldValues>;
+	resetForm?: boolean;
+} & TFormConfig;
 
-const PHForm = ({ children, onSubmit, resolver }: TPHFormProps) => {
+const PHForm = ({ children, onSubmit, resolver, resetForm }: TPHFormProps) => {
 	const formConfig: TFormConfig = {};
 
 	if (resolver) {
@@ -14,7 +18,7 @@ const PHForm = ({ children, onSubmit, resolver }: TPHFormProps) => {
 	const { handleSubmit, reset } = methods;
 	const submit: SubmitHandler<FieldValues> = (data) => {
 		onSubmit(data);
-		reset();
+		resetForm === true && reset();
 	};
 	return (
 		<FormProvider {...methods}>

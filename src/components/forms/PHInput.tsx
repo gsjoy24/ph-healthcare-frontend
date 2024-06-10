@@ -24,6 +24,7 @@ const PHInput = ({ label, type = 'text', name, sx, required }: PHInputProps) => 
 					label={label}
 					placeholder={label}
 					type={type}
+					value={field.value || ''}
 					variant='outlined'
 					size='small'
 					fullWidth

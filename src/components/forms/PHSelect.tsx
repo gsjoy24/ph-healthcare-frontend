@@ -25,6 +25,7 @@ const PHSelect = ({ label, type = 'text', name, sx, required, items }: PHSelectP
 					sx={{ ...sx, width: '100%' }}
 					label={label}
 					type={type}
+					value={field.value || ''}
 					variant='outlined'
 					select
 					size='small'
