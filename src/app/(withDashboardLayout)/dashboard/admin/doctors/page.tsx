@@ -1,7 +1,8 @@
 'use client';
 import ConfirmModal from '@/components/Shared/ConfirmModal/ConfirmModal';
 import CreateDoctorModal from '@/components/dashboard/CreateDoctorModal/CreateDoctorModal';
-import { useDeleteSpecialtyMutation, useGetSpecialtiesQuery } from '@/redux/api/specialtiesApi';
+import { useGetDoctorsQuery } from '@/redux/api/doctorApi';
+import { useDeleteSpecialtyMutation } from '@/redux/api/specialtiesApi';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { Box, Button, CircularProgress, IconButton, Stack, TextField, Typography } from '@mui/material';
@@ -15,7 +16,7 @@ const Doctors = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
-	const { data, isLoading } = useGetSpecialtiesQuery(undefined);
+	const { data, isLoading } = useGetDoctorsQuery(undefined);
 
 	const [deleteSpecialty, { isLoading: isDeleting }] = useDeleteSpecialtyMutation();
 
@@ -24,13 +25,8 @@ const Doctors = () => {
 		setIsDeleteModalOpen(true);
 	};
 
-	const handleDeleteSpecialty = async () => {
-		if (!idToDelete) {
-			toast.error('No specialty to delete');
-			return;
-		}
+	const handleDeleteDoctor = async () => {
 		setIsDeleteModalOpen(false);
-
 		try {
 			const response = await deleteSpecialty(idToDelete).unwrap();
 			if (response?.id) {
@@ -40,17 +36,11 @@ const Doctors = () => {
 	};
 
 	const columns: GridColDef[] = [
-		{
-			field: 'icon',
-			headerName: 'Icon',
-			flex: 1,
-			renderCell: (params) => (
-				<div className='h-full w-[60px]'>
-					<Image src={params.value} alt='icon' height={60} width={60} className='p-1 w-full h-full' />
-				</div>
-			)
-		},
-		{ field: 'title', headerName: 'Title', flex: 1 },
+		{ field: 'name', headerName: 'Name', width: 150 },
+		{ field: 'gender', headerName: 'Gender', width: 120 },
+		{ field: 'email', headerName: 'Email', width: 200 },
+		{ field: 'registrationNumber', headerName: 'Reg. No', width: 150 },
+		{ field: 'appointmentFee', headerName: 'Fee', width: 80 },
 		{
 			field: 'actions',
 			headerName: 'Actions',
@@ -75,20 +65,20 @@ const Doctors = () => {
 				<CreateDoctorModal open={isModalOpen} setOpen={setIsModalOpen} />
 				<TextField size='small' placeholder='Search' />
 			</Stack>
-			{/* <Box mt={2}>
+			<Box mt={2}>
 				<Typography variant='h6'>Specialties</Typography>
 				{isLoading ? (
 					<Typography>Loading...</Typography>
 				) : (
-					<DataGrid rows={data?.length ? data : []} columns={columns} />
+					<DataGrid rows={data?.data?.length ? data.data : []} columns={columns} />
 				)}
-			</Box> */}
+			</Box>
 			<ConfirmModal
 				open={isDeleteModalOpen}
 				setOpen={setIsDeleteModalOpen}
-				title='Delete Specialty'
-				subTitle='Are you sure you want to delete this specialty?'
-				handleAgree={handleDeleteSpecialty}
+				title='Delete Doctor'
+				subTitle='Are you sure you want to delete this doctor?'
+				handleAgree={handleDeleteDoctor}
 			/>
 		</Box>
 	);

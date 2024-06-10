@@ -19,6 +19,7 @@ export interface TDrawerItem {
 }
 
 export type TResponseSuccess = {
+	success: boolean;
 	data: any;
 	meta?: TMeta;
 };

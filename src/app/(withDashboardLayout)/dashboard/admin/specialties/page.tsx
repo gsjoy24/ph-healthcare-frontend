@@ -32,7 +32,7 @@ const Specialties = () => {
 
 		try {
 			const response = await deleteSpecialty(idToDelete).unwrap();
-			if (response?.id) {
+			if (response?.success) {
 				toast.success('Specialty deleted successfully!');
 			}
 		} catch (error) {}
@@ -79,7 +79,7 @@ const Specialties = () => {
 				{isLoading ? (
 					<Typography>Loading...</Typography>
 				) : (
-					<DataGrid rows={data?.length ? data : []} columns={columns} />
+					<DataGrid rows={data?.data?.length ? data.data : []} columns={columns} />
 				)}
 			</Box>
 			<ConfirmModal

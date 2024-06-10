@@ -26,6 +26,14 @@ const doctorApi = baseApi.injectEndpoints({
 				data
 			}),
 			invalidatesTags: [tagTypes.doctor]
+		}),
+
+		deleteDoctor: builder.mutation({
+			query: (id: string) => ({
+				url: `/doctors/soft-delete/${id}`,
+				method: 'DELETE'
+			}),
+			invalidatesTags: [tagTypes.doctor]
 		})
 	})
 });
