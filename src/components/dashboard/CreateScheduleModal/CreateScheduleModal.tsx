@@ -4,7 +4,7 @@ import PHForm from '@/components/forms/PHForm';
 import PHInput from '@/components/forms/PHInput';
 import { useCreateSpecialtyMutation } from '@/redux/api/specialtiesApi';
 import modifiedPayload from '@/utils/modifiedPayload';
-import { Button, CircularProgress, Grid } from '@mui/material';
+import { Button, CircularProgress, Grid, TextField } from '@mui/material';
 import { FieldValues } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -13,7 +13,7 @@ type TProps = {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SpecialtiesModal = ({ open, setOpen }: TProps) => {
+const CreateScheduleModal = ({ open, setOpen }: TProps) => {
 	const [createSpecialty, { isLoading }] = useCreateSpecialtyMutation();
 
 	const handleFormSubmit = async (values: FieldValues) => {
@@ -30,6 +30,7 @@ const SpecialtiesModal = ({ open, setOpen }: TProps) => {
 			console.log(error);
 		}
 	};
+
 	return (
 		<PHModal open={open} setOpen={setOpen} title='Create a New Specialty'>
 			<PHForm onSubmit={handleFormSubmit}>
@@ -51,4 +52,4 @@ const SpecialtiesModal = ({ open, setOpen }: TProps) => {
 	);
 };
 
-export default SpecialtiesModal;
+export default CreateScheduleModal;
