@@ -1,3 +1,4 @@
+import { tagTypes } from '../tagTypes';
 import { baseApi } from './baseApi';
 
 const doctorApi = baseApi.injectEndpoints({
@@ -6,23 +7,25 @@ const doctorApi = baseApi.injectEndpoints({
 			query: () => ({
 				url: '/doctors',
 				method: 'GET'
-			})
+			}),
+			providesTags: [tagTypes.doctor]
 		}),
 
 		getDoctor: builder.query({
 			query: (id: string) => ({
-				url: `/users/doctors/${id}`,
+				url: `/doctors/${id}`,
 				method: 'GET'
 			})
 		}),
 
 		createDoctor: builder.mutation({
 			query: (data: any) => ({
-				url: '/doctors',
+				url: '/users/create-doctor',
 				method: 'POST',
-				body: data,
-				contentType: 'multipart/form-data'
-			})
+				contentType: 'multipart/form-data',
+				data
+			}),
+			invalidatesTags: [tagTypes.doctor]
 		})
 	})
 });

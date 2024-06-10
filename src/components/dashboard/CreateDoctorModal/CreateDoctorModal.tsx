@@ -4,11 +4,15 @@ import PHForm from '@/components/forms/PHForm';
 import PHInput from '@/components/forms/PHInput';
 import PHSelect from '@/components/forms/PHSelect';
 import { GenderOptions } from '@/constants';
+import { useCreateDoctorMutation } from '@/redux/api/doctorApi';
+import modifiedPayload from '@/utils/modifiedPayload';
+import SendIcon from '@mui/icons-material/Send';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { Box, Button, Grid, IconButton, Stack } from '@mui/material';
+import { Box, Button, CircularProgress, Grid, IconButton, Stack } from '@mui/material';
 import { useState } from 'react';
 import { FieldValues } from 'react-hook-form';
+import { toast } from 'sonner';
 
 type TProps = {
 	open: boolean;
@@ -16,8 +20,19 @@ type TProps = {
 };
 const CreateDoctorModal = ({ open, setOpen }: TProps) => {
 	const [showPassword, setShowPassword] = useState<boolean>(false);
-	const handleSubmit = (data: FieldValues) => {
-		console.log(data);
+	const [createDoctor, { isLoading }] = useCreateDoctorMutation();
+
+	const handleSubmit = async (data: FieldValues) => {
+		data.doctor.experience = Number(data.doctor.experience);
+		data.doctor.appointmentFee = Number(data.doctor.appointmentFee);
+		const modifiedData = modifiedPayload(data);
+		try {
+			const res = await createDoctor(modifiedData).unwrap();
+			if (res?.doctor?.id) {
+				toast.success('Doctor created successfully!');
+				setOpen(false);
+			}
+		} catch (error) {}
 	};
 	return (
 		<PHFullScreenModal open={open} setOpen={setOpen} title='Create Doctor'>
@@ -86,7 +101,12 @@ const CreateDoctorModal = ({ open, setOpen }: TProps) => {
 					<Grid item xs={12}>
 						<Stack direction='row' spacing={2}>
 							<Box flexGrow={1} />
-							<Button type='submit' variant='contained'>
+							<Button
+								type='submit'
+								variant='contained'
+								disabled={isLoading}
+								endIcon={isLoading ? <CircularProgress size={18} /> : <SendIcon />}
+							>
 								Create Doctor
 							</Button>
 						</Stack>
