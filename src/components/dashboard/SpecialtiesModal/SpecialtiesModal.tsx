@@ -4,7 +4,7 @@ import PHForm from '@/components/forms/PHForm';
 import PHInput from '@/components/forms/PHInput';
 import { useCreateSpecialtyMutation } from '@/redux/api/specialtiesApi';
 import modifiedPayload from '@/utils/modifiedPayload';
-import { Button, Grid, TextField } from '@mui/material';
+import { Button, CircularProgress, Grid, TextField } from '@mui/material';
 import { FieldValues } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -14,7 +14,8 @@ type TProps = {
 };
 
 const SpecialtiesModal = ({ open, setOpen }: TProps) => {
-	const [createSpecialty] = useCreateSpecialtyMutation();
+	const [createSpecialty, { isLoading }] = useCreateSpecialtyMutation();
+
 	const handleFormSubmit = async (values: FieldValues) => {
 		const data = modifiedPayload(values);
 
@@ -40,8 +41,8 @@ const SpecialtiesModal = ({ open, setOpen }: TProps) => {
 						<PHFileUploader name='file' label='Upload file' />
 					</Grid>
 					<Grid item md={12}>
-						<Button type='submit' fullWidth>
-							Create
+						<Button type='submit' fullWidth disabled={isLoading}>
+							{isLoading ? <CircularProgress size={24} /> : 'Create Specialty'}
 						</Button>
 					</Grid>
 				</Grid>

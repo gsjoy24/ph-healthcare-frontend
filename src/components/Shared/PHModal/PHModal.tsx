@@ -30,26 +30,24 @@ const PHModal = ({ open = false, setOpen, title = '', children, sx }: TModalProp
 	};
 
 	return (
-		<React.Fragment>
-			<BootstrapDialog onClose={handleClose} aria-labelledby='customized-dialog-title' open={open} sx={{ ...sx }}>
-				<DialogTitle sx={{ m: 0, p: 2 }} id='customized-dialog-title'>
-					{title}
-				</DialogTitle>
-				<IconButton
-					aria-label='close'
-					onClick={handleClose}
-					sx={{
-						position: 'absolute',
-						right: 8,
-						top: 8,
-						color: (theme) => theme.palette.grey[500]
-					}}
-				>
-					<CloseIcon />
-				</IconButton>
-				<DialogContent dividers>{children}</DialogContent>
-			</BootstrapDialog>
-		</React.Fragment>
+		<BootstrapDialog onClose={handleClose} aria-labelledby='customized-dialog-title' open={open} sx={{ ...sx }}>
+			<DialogTitle sx={{ m: 0, p: 2 }} id='customized-dialog-title'>
+				{title}
+			</DialogTitle>
+			<IconButton
+				aria-label='close'
+				onClick={handleClose}
+				sx={{
+					position: 'absolute',
+					right: 8,
+					top: 8,
+					color: (theme) => theme.palette.grey[500]
+				}}
+			>
+				<CloseIcon />
+			</IconButton>
+			<DialogContent dividers>{children}</DialogContent>
+		</BootstrapDialog>
 	);
 };
 

@@ -1,9 +1,9 @@
-const DoctorDashboard = () => {
+const page = () => {
 	return (
 		<div>
-			<h1>This is DoctorDashboard component</h1>
+			<h1>This is page component</h1>
 		</div>
 	);
 };
 
-export default DoctorDashboard;
+export default page;

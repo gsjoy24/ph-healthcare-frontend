@@ -31,8 +31,10 @@ const Specialties = () => {
 		setIsDeleteModalOpen(false);
 
 		try {
-			const response = await deleteSpecialty(idToDelete);
-			toast.success('Specialty deleted successfully!');
+			const response = await deleteSpecialty(idToDelete).unwrap();
+			if (response?.id) {
+				toast.success('Specialty deleted successfully!');
+			}
 		} catch (error) {}
 	};
 
@@ -72,9 +74,13 @@ const Specialties = () => {
 				<SpecialtiesModal open={isModalOpen} setOpen={setIsModalOpen} />
 				<TextField size='small' placeholder='Search Specialties' />
 			</Stack>
-			<Box>
+			<Box mt={2}>
 				<Typography variant='h6'>Specialties</Typography>
-				{isLoading ? <Typography>Loading...</Typography> : <DataGrid rows={data} columns={columns} />}
+				{isLoading ? (
+					<Typography>Loading...</Typography>
+				) : (
+					<DataGrid rows={data?.length ? data : []} columns={columns} />
+				)}
 			</Box>
 			<ConfirmModal
 				open={isDeleteModalOpen}
