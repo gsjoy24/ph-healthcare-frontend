@@ -1,36 +1,38 @@
-import { Box, SxProps, TextField } from '@mui/material';
+import { Box, MenuItem, SxProps, TextField } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 import { CiWarning } from 'react-icons/ci';
 
-type PHInputProps = {
+type PHSelectProps = {
 	label?: string;
 	type?: string;
 	name: string;
 	sx?: SxProps;
 	required?: boolean;
+	items: string[];
 };
 
-const PHInput = ({ label, type = 'text', name, sx, required }: PHInputProps) => {
-	const { control } = useFormContext();
+const PHSelect = ({ label, type = 'text', name, sx, required, items }: PHSelectProps) => {
+	const { control, formState } = useFormContext();
+	const isError = formState.errors[name] !== undefined;
 
 	return (
 		<Controller
 			control={control}
 			name={name}
-			render={({ field, fieldState: { error } }) => (
+			render={({ field }) => (
 				<TextField
 					{...field}
 					sx={{ ...sx, width: '100%' }}
 					label={label}
-					placeholder={label}
 					type={type}
 					variant='outlined'
+					select
 					size='small'
 					fullWidth
 					required={required || false}
-					error={!!error?.message}
+					error={isError}
 					helperText={
-						error?.message && (
+						isError && (
 							<Box
 								sx={{
 									display: 'flex',
@@ -40,14 +42,21 @@ const PHInput = ({ label, type = 'text', name, sx, required }: PHInputProps) => 
 									right: 10
 								}}
 							>
-								<CiWarning size={16} /> {error?.message}
+								<CiWarning size={16} />
+								{formState.errors[name]?.message as string}
 							</Box>
 						)
 					}
-				/>
+				>
+					{items.map((item) => (
+						<MenuItem key={item} value={item}>
+							{item}
+						</MenuItem>
+					))}
+				</TextField>
 			)}
 		/>
 	);
 };
 
-export default PHInput;
+export default PHSelect;

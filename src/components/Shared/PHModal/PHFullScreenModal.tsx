@@ -1,4 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
+import { Container } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -26,8 +27,9 @@ type TProps = {
 	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	children: React.ReactNode;
+	title: string;
 };
-const PHFullScreenModal = ({ open, setOpen, children }: TProps) => {
+const PHFullScreenModal = ({ open, setOpen, children, title }: TProps) => {
 	return (
 		<Dialog fullScreen open={open} onClose={() => setOpen(false)} TransitionComponent={Transition}>
 			<AppBar sx={{ position: 'relative' }}>
@@ -36,7 +38,7 @@ const PHFullScreenModal = ({ open, setOpen, children }: TProps) => {
 						<CloseIcon />
 					</IconButton>
 					<Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
-						Sound
+						{title}
 					</Typography>
 					<Button
 						autoFocus
@@ -46,11 +48,11 @@ const PHFullScreenModal = ({ open, setOpen, children }: TProps) => {
 						}}
 						onClick={() => console.log('object')}
 					>
-						save
+						Submit
 					</Button>
 				</Toolbar>
 			</AppBar>
-			{children}
+			<Container>{children}</Container>
 		</Dialog>
 	);
 };
