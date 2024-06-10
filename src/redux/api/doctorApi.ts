@@ -4,9 +4,10 @@ import { baseApi } from './baseApi';
 const doctorApi = baseApi.injectEndpoints({
 	endpoints: (builder) => ({
 		getDoctors: builder.query({
-			query: () => ({
+			query: (args: Record<string, any>) => ({
 				url: '/doctors',
-				method: 'GET'
+				method: 'GET',
+				params: args
 			}),
 			providesTags: [tagTypes.doctor]
 		}),
@@ -38,4 +39,4 @@ const doctorApi = baseApi.injectEndpoints({
 	})
 });
 
-export const { useGetDoctorsQuery, useGetDoctorQuery, useCreateDoctorMutation } = doctorApi;
+export const { useGetDoctorsQuery, useGetDoctorQuery, useCreateDoctorMutation, useDeleteDoctorMutation } = doctorApi;

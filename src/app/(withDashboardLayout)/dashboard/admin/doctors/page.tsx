@@ -1,36 +1,46 @@
 'use client';
 import ConfirmModal from '@/components/Shared/ConfirmModal/ConfirmModal';
 import CreateDoctorModal from '@/components/dashboard/CreateDoctorModal/CreateDoctorModal';
-import { useGetDoctorsQuery } from '@/redux/api/doctorApi';
-import { useDeleteSpecialtyMutation } from '@/redux/api/specialtiesApi';
+import { useDeleteDoctorMutation, useGetDoctorsQuery } from '@/redux/api/doctorApi';
+import { useDebounce } from '@/redux/hooks';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { Box, Button, CircularProgress, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import Image from 'next/image';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 const Doctors = () => {
+	const [searchTerm, setSearchTerm] = useState<string>('');
 	const [idToDelete, setIdToDelete] = useState<string>('');
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+	const [deleteDoctor, { isLoading: isDeleting }] = useDeleteDoctorMutation();
 
-	const { data, isLoading } = useGetDoctorsQuery(undefined);
+	const query: Record<string, any> = {};
 
-	const [deleteSpecialty, { isLoading: isDeleting }] = useDeleteSpecialtyMutation();
+	const debounce = useDebounce({ searchQuery: searchTerm });
+	if (!!debounce) {
+		query.searchTerm = searchTerm;
+	}
 
+	const { data, isLoading } = useGetDoctorsQuery(query);
+
+	// This function is used to open the delete modal
 	const handleOpenDeleteModal = (id: string) => {
 		setIdToDelete(id);
 		setIsDeleteModalOpen(true);
 	};
 
+	// This function is used to delete a doctor
 	const handleDeleteDoctor = async () => {
 		setIsDeleteModalOpen(false);
 		try {
-			const response = await deleteSpecialty(idToDelete).unwrap();
-			if (response?.id) {
-				toast.success('Specialty deleted successfully!');
+			const response = await deleteDoctor(idToDelete).unwrap();
+			if (response?.success) {
+				toast.success('Doctor deleted successfully!');
+			} else {
+				toast.error('Failed to delete the doctor!');
 			}
 		} catch (error) {}
 	};
@@ -39,8 +49,10 @@ const Doctors = () => {
 		{ field: 'name', headerName: 'Name', width: 150 },
 		{ field: 'gender', headerName: 'Gender', width: 120 },
 		{ field: 'email', headerName: 'Email', width: 200 },
-		{ field: 'registrationNumber', headerName: 'Reg. No', width: 150 },
+		{ field: 'registrationNumber', headerName: 'Reg. No', width: 120 },
 		{ field: 'appointmentFee', headerName: 'Fee', width: 80 },
+		{ field: 'experience', headerName: 'Experience', width: 100 },
+		{ field: 'avgRating', headerName: 'Avg. Rating', width: 100 },
 		{
 			field: 'actions',
 			headerName: 'Actions',
@@ -63,7 +75,7 @@ const Doctors = () => {
 			<Stack alignItems='center' justifyContent='space-between' direction='row'>
 				<Button onClick={() => setIsModalOpen(true)}>Create Doctor</Button>
 				<CreateDoctorModal open={isModalOpen} setOpen={setIsModalOpen} />
-				<TextField size='small' placeholder='Search' />
+				<TextField size='small' placeholder='Search' onChange={(e) => setSearchTerm(e.target.value)} />
 			</Stack>
 			<Box mt={2}>
 				<Typography variant='h6'>Specialties</Typography>
