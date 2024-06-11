@@ -1,12 +1,21 @@
+import { tagTypes } from '../tagTypes';
 import { baseApi } from './baseApi';
 
 const scheduleApi = baseApi.injectEndpoints({
 	endpoints: (builder) => ({
-		getSchedule: builder.query({
+		getSchedules: builder.query({
 			query: (args: Record<string, any>) => ({
 				url: '/schedules',
 				method: 'GET',
 				params: args
+			}),
+			providesTags: [tagTypes.schedule]
+		}),
+
+		getSchedule: builder.query({
+			query: (id: string) => ({
+				url: `/schedules/${id}`,
+				method: 'GET'
 			})
 		}),
 
@@ -15,25 +24,19 @@ const scheduleApi = baseApi.injectEndpoints({
 				url: '/schedules',
 				method: 'POST',
 				data
-			})
-		}),
-
-		updateSchedule: builder.mutation({
-			query: (data: any) => ({
-				url: '/schedules',
-				method: 'PUT',
-				data
-			})
+			}),
+			invalidatesTags: [tagTypes.schedule]
 		}),
 
 		deleteSchedule: builder.mutation({
 			query: (id: string) => ({
 				url: `/schedules/${id}`,
 				method: 'DELETE'
-			})
+			}),
+			invalidatesTags: [tagTypes.schedule]
 		})
 	})
 });
 
-export const { useGetScheduleQuery, useCreateScheduleMutation, useUpdateScheduleMutation, useDeleteScheduleMutation } =
+export const { useGetScheduleQuery, useGetSchedulesQuery, useCreateScheduleMutation, useDeleteScheduleMutation } =
 	scheduleApi;

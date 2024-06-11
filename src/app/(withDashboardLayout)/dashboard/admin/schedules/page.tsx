@@ -1,6 +1,7 @@
 'use client';
 import ConfirmModal from '@/components/Shared/ConfirmModal/ConfirmModal';
 import CreateScheduleModal from '@/components/dashboard/CreateScheduleModal/CreateScheduleModal';
+import { useDeleteScheduleMutation, useGetSchedulesQuery } from '@/redux/api/scheduleApi';
 import { useDeleteSpecialtyMutation, useGetSpecialtiesQuery } from '@/redux/api/specialtiesApi';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
@@ -15,15 +16,15 @@ const Schedules = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
-	const { data, isLoading } = useGetSpecialtiesQuery(undefined);
-	const [deleteSpecialty, { isLoading: isDeleting }] = useDeleteSpecialtyMutation();
+	const { data, isLoading } = useGetSchedulesQuery({});
+	const [deleteSchedule, { isLoading: isDeleting }] = useDeleteScheduleMutation();
 
 	const handleOpenDeleteModal = (id: string) => {
 		setIdToDelete(id);
 		setIsDeleteModalOpen(true);
 	};
 
-	const handleDeleteSpecialty = async () => {
+	const handleDelete = async () => {
 		if (!idToDelete) {
 			toast.error('No specialty to delete');
 			return;
@@ -31,7 +32,7 @@ const Schedules = () => {
 		setIsDeleteModalOpen(false);
 
 		try {
-			const response = await deleteSpecialty(idToDelete).unwrap();
+			const response = await deleteSchedule(idToDelete).unwrap();
 			if (response?.success) {
 				toast.success('Specialty deleted successfully!');
 			}
@@ -70,24 +71,24 @@ const Schedules = () => {
 	return (
 		<Box>
 			<Stack alignItems='center' justifyContent='space-between' direction='row'>
-				<Button onClick={() => setIsModalOpen(true)}>Create Specialty</Button>
+				<Button onClick={() => setIsModalOpen(true)}>Create Schedule</Button>
 				<CreateScheduleModal open={isModalOpen} setOpen={setIsModalOpen} />
-				<TextField size='small' placeholder='Search Specialties' />
+				<TextField size='small' placeholder='Search' />
 			</Stack>
 			<Box mt={2}>
-				<Typography variant='h6'>Specialties</Typography>
-				{isLoading ? (
+				<Typography variant='h6'>Schedules</Typography>
+				{/* {isLoading ? (
 					<Typography>Loading...</Typography>
 				) : (
 					<DataGrid rows={data?.data?.length ? data.data : []} columns={columns} />
-				)}
+				)} */}
 			</Box>
 			<ConfirmModal
 				open={isDeleteModalOpen}
 				setOpen={setIsDeleteModalOpen}
 				title='Delete Specialty'
 				subTitle='Are you sure you want to delete this specialty?'
-				handleAgree={handleDeleteSpecialty}
+				handleAgree={handleDelete}
 			/>
 		</Box>
 	);

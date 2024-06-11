@@ -1,4 +1,5 @@
 import PHModal from '@/components/Shared/PHModal/PHModal';
+import PHDatePicker from '@/components/forms/PHDatePicker';
 import PHFileUploader from '@/components/forms/PHFileUploader';
 import PHForm from '@/components/forms/PHForm';
 import PHInput from '@/components/forms/PHInput';
@@ -36,10 +37,7 @@ const CreateScheduleModal = ({ open, setOpen }: TProps) => {
 			<PHForm onSubmit={handleFormSubmit}>
 				<Grid container spacing={2}>
 					<Grid item md={7}>
-						<PHInput name='title' label='Specialty Title' />
-					</Grid>
-					<Grid item md={5}>
-						<PHFileUploader name='file' label='Upload file' />
+						<PHDatePicker />
 					</Grid>
 					<Grid item md={12}>
 						<Button type='submit' fullWidth disabled={isLoading}>
