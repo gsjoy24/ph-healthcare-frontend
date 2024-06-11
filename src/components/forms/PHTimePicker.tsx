@@ -1,7 +1,7 @@
 import { Box, SxProps } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs from 'dayjs';
 import { Controller, useFormContext } from 'react-hook-form';
 import { CiWarning } from 'react-icons/ci';
@@ -13,7 +13,7 @@ type TProps = {
 	sx?: SxProps;
 };
 
-const PHDatePicker = ({ label, name, required, sx }: TProps) => {
+const PHTimePicker = ({ label, name, required, sx }: TProps) => {
 	const { control, formState } = useFormContext();
 
 	return (
@@ -23,7 +23,7 @@ const PHDatePicker = ({ label, name, required, sx }: TProps) => {
 			defaultValue={dayjs(new Date().toDateString())}
 			render={({ field: { onChange, value, ...field }, fieldState: { error } }) => (
 				<LocalizationProvider dateAdapter={AdapterDayjs}>
-					<DatePicker
+					<TimePicker
 						label={label}
 						{...field}
 						value={value || Date.now()}
@@ -62,4 +62,4 @@ const PHDatePicker = ({ label, name, required, sx }: TProps) => {
 	);
 };
 
-export default PHDatePicker;
+export default PHTimePicker;

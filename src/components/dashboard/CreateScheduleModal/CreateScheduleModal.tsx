@@ -3,6 +3,7 @@ import PHDatePicker from '@/components/forms/PHDatePicker';
 import PHFileUploader from '@/components/forms/PHFileUploader';
 import PHForm from '@/components/forms/PHForm';
 import PHInput from '@/components/forms/PHInput';
+import PHTimePicker from '@/components/forms/PHTimePicker';
 import { useCreateSpecialtyMutation } from '@/redux/api/specialtiesApi';
 import modifiedPayload from '@/utils/modifiedPayload';
 import { Button, CircularProgress, Grid, TextField } from '@mui/material';
@@ -47,6 +48,13 @@ const CreateScheduleModal = ({ open, setOpen }: TProps) => {
 					</Grid>
 					<Grid item md={12}>
 						<PHDatePicker name='endDate' label='End Date' />
+					</Grid>
+					<Grid item md={12}>
+						<PHTimePicker name='startTime' label='Start Time' />
+					</Grid>
+
+					<Grid item md={12}>
+						<PHTimePicker name='endTime' label='End Time' />
 					</Grid>
 					<Grid item md={12}>
 						<Button type='submit' fullWidth disabled={isLoading}>
