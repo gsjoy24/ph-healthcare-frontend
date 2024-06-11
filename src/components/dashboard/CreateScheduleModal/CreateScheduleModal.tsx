@@ -18,26 +18,35 @@ const CreateScheduleModal = ({ open, setOpen }: TProps) => {
 	const [createSpecialty, { isLoading }] = useCreateSpecialtyMutation();
 
 	const handleFormSubmit = async (values: FieldValues) => {
-		const data = modifiedPayload(values);
+		console.log(values);
 
-		try {
-			const res = await createSpecialty(data).unwrap();
+		// try {
+		// 	const res = await createSpecialty(data).unwrap();
 
-			if (res?.id) {
-				toast.success('Specialty created successfully!');
-				setOpen(false);
-			}
-		} catch (error) {
-			console.log(error);
-		}
+		// 	if (res?.id) {
+		// 		toast.success('Specialty created successfully!');
+		// 		setOpen(false);
+		// 	}
+		// } catch (error) {
+		// 	console.log(error);
+		// }
 	};
 
 	return (
 		<PHModal open={open} setOpen={setOpen} title='Create a New Specialty'>
 			<PHForm onSubmit={handleFormSubmit}>
-				<Grid container spacing={2}>
-					<Grid item md={7}>
-						<PHDatePicker />
+				<Grid
+					container
+					spacing={2}
+					sx={{
+						maxWidth: 400
+					}}
+				>
+					<Grid item md={12}>
+						<PHDatePicker name='startDate' label='Start Date' />
+					</Grid>
+					<Grid item md={12}>
+						<PHDatePicker name='endDate' label='End Date' />
 					</Grid>
 					<Grid item md={12}>
 						<Button type='submit' fullWidth disabled={isLoading}>
