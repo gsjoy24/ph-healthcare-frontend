@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { Box, Button, CircularProgress, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -59,7 +60,7 @@ const Doctors = () => {
 			flex: 1,
 			renderCell: ({ row }) => (
 				<Stack direction='row' spacing={1} alignItems='center' className='h-full'>
-					<IconButton>
+					<IconButton LinkComponent={Link} href={`/dashboard/admin/doctors/edit/${row.id}`}>
 						<ModeEditIcon />
 					</IconButton>
 					<IconButton onClick={() => handleOpenDeleteModal(row.id)} disabled={isDeleting}>
