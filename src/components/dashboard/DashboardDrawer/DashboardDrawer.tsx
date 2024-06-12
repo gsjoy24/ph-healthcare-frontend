@@ -92,7 +92,14 @@ export default function DashboardDrawer({ children }: { children: React.ReactNod
 							>
 								<NotificationsIcon color='action' />
 							</Badge>
-							<Avatar alt={name} src={profilePhoto} />
+							<Avatar
+								alt={name}
+								src={profilePhoto}
+								sx={{
+									border: '1px solid #fff',
+									outline: '2px solid #1586FD'
+								}}
+							/>
 							<AccountMenu />
 						</Stack>
 					</Box>

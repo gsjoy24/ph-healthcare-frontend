@@ -6,6 +6,7 @@ import { GenderOptions } from '@/constants';
 import { useEditDoctorMutation, useGetDoctorQuery } from '@/redux/api/doctorApi';
 import SendIcon from '@mui/icons-material/Send';
 import { Backdrop, Box, Button, CircularProgress, Container, Grid, Stack, Typography } from '@mui/material';
+import { useRouter } from 'next/navigation';
 import { FieldValues } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -16,6 +17,7 @@ type TProps = {
 };
 
 const EditDoctor = ({ params: { doctorId } }: TProps) => {
+	const router = useRouter();
 	const [editDoctor, { isLoading: isUpdating }] = useEditDoctorMutation();
 	const { data, isLoading } = useGetDoctorQuery(doctorId);
 
@@ -45,6 +47,7 @@ const EditDoctor = ({ params: { doctorId } }: TProps) => {
 
 			console.log(res);
 			if (res.success) {
+				router.push('/dashboard/admin/doctors');
 				toast.success('Doctor updated successfully!');
 			} else {
 				toast.error('Failed to update doctor');
