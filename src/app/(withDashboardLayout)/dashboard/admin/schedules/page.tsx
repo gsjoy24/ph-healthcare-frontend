@@ -2,21 +2,34 @@
 import ConfirmModal from '@/components/Shared/ConfirmModal/ConfirmModal';
 import CreateScheduleModal from '@/components/dashboard/CreateScheduleModal/CreateScheduleModal';
 import { useDeleteScheduleMutation, useGetSchedulesQuery } from '@/redux/api/scheduleApi';
-import { useDeleteSpecialtyMutation, useGetSpecialtiesQuery } from '@/redux/api/specialtiesApi';
+import formatDate from '@/utils/formatDate';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { Box, Button, CircularProgress, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import Image from 'next/image';
-import { useState } from 'react';
+import dayjs from 'dayjs';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 const Schedules = () => {
+	const [schedules, setSchedules] = useState<any[]>([]);
 	const [idToDelete, setIdToDelete] = useState<string>('');
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
 	const { data, isLoading } = useGetSchedulesQuery({});
+
+	useEffect(() => {
+		const schedules = data?.data?.data?.map((schedule: any) => ({
+			id: schedule.id,
+			startDate: formatDate(schedule.startDateTime),
+			endDate: formatDate(schedule.endDateTime),
+			startTime: dayjs(schedule.startDateTime).format('hh:mm A'),
+			endTime: dayjs(schedule.endDateTime).format('hh:mm A')
+		}));
+		setSchedules(schedules);
+	}, [data]);
+
 	const [deleteSchedule, { isLoading: isDeleting }] = useDeleteScheduleMutation();
 
 	const handleOpenDeleteModal = (id: string) => {
@@ -25,32 +38,21 @@ const Schedules = () => {
 	};
 
 	const handleDelete = async () => {
-		if (!idToDelete) {
-			toast.error('No specialty to delete');
-			return;
-		}
 		setIsDeleteModalOpen(false);
 
 		try {
 			const response = await deleteSchedule(idToDelete).unwrap();
 			if (response?.success) {
-				toast.success('Specialty deleted successfully!');
+				toast.success('Schedule deleted successfully!');
 			}
 		} catch (error) {}
 	};
 
 	const columns: GridColDef[] = [
-		{
-			field: 'icon',
-			headerName: 'Icon',
-			flex: 1,
-			renderCell: (params) => (
-				<div className='h-full w-[60px]'>
-					<Image src={params.value} alt='icon' height={60} width={60} className='p-1 w-full h-full' />
-				</div>
-			)
-		},
-		{ field: 'title', headerName: 'Title', flex: 1 },
+		{ field: 'startDate', headerName: 'Start Date', flex: 1 },
+		{ field: 'endDate', headerName: 'End Date', flex: 1 },
+		{ field: 'startTime', headerName: 'Start Time', flex: 1 },
+		{ field: 'endTime', headerName: 'End Time', flex: 1 },
 		{
 			field: 'actions',
 			headerName: 'Actions',
@@ -77,11 +79,7 @@ const Schedules = () => {
 			</Stack>
 			<Box mt={2}>
 				<Typography variant='h6'>Schedules</Typography>
-				{/* {isLoading ? (
-					<Typography>Loading...</Typography>
-				) : (
-					<DataGrid rows={data?.data?.length ? data.data : []} columns={columns} />
-				)} */}
+				{isLoading ? <Typography>Loading...</Typography> : <DataGrid rows={schedules || []} columns={columns} />}
 			</Box>
 			<ConfirmModal
 				open={isDeleteModalOpen}

@@ -1,13 +1,10 @@
 import PHModal from '@/components/Shared/PHModal/PHModal';
 import PHDatePicker from '@/components/forms/PHDatePicker';
-import PHFileUploader from '@/components/forms/PHFileUploader';
 import PHForm from '@/components/forms/PHForm';
-import PHInput from '@/components/forms/PHInput';
 import PHTimePicker from '@/components/forms/PHTimePicker';
-import { useCreateSpecialtyMutation } from '@/redux/api/specialtiesApi';
+import { useCreateScheduleMutation } from '@/redux/api/scheduleApi';
 import formatDate from '@/utils/formatDate';
 import formatTime from '@/utils/formatTime';
-import modifiedPayload from '@/utils/modifiedPayload';
 import { Button, CircularProgress, Grid, TextField } from '@mui/material';
 import { FieldValues } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -18,7 +15,7 @@ type TProps = {
 };
 
 const CreateScheduleModal = ({ open, setOpen }: TProps) => {
-	const [createSpecialty, { isLoading }] = useCreateSpecialtyMutation();
+	const [createSchedule, { isLoading }] = useCreateScheduleMutation();
 
 	const handleFormSubmit = async (values: FieldValues) => {
 		const data = {
@@ -27,17 +24,19 @@ const CreateScheduleModal = ({ open, setOpen }: TProps) => {
 			startTime: formatTime(values.startTime),
 			endTime: formatTime(values.endTime)
 		};
-		console.log(data);
-		// try {
-		// 	const res = await createSpecialty(data).unwrap();
 
-		// 	if (res?.id) {
-		// 		toast.success('Specialty created successfully!');
-		// 		setOpen(false);
-		// 	}
-		// } catch (error) {
-		// 	console.log(error);
-		// }
+		try {
+			const res = await createSchedule(data).unwrap();
+
+			if (res?.success) {
+				toast.success('Schedule created successfully!');
+				setOpen(false);
+			} else {
+				toast.error(res?.message || 'Failed to create schedule');
+			}
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (

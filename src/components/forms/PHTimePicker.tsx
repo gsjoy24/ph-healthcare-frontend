@@ -14,7 +14,7 @@ type TProps = {
 };
 
 const PHTimePicker = ({ label, name, required, sx }: TProps) => {
-	const { control, formState } = useFormContext();
+	const { control } = useFormContext();
 
 	return (
 		<Controller
