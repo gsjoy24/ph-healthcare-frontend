@@ -29,7 +29,6 @@ const PHTimePicker = ({ label, name, required, sx }: TProps) => {
 						value={value || Date.now()}
 						onChange={(date) => onChange(date)}
 						timezone='system'
-						disablePast
 						slotProps={{
 							textField: {
 								sx: { ...sx },

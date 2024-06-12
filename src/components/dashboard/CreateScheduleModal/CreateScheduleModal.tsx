@@ -5,6 +5,8 @@ import PHForm from '@/components/forms/PHForm';
 import PHInput from '@/components/forms/PHInput';
 import PHTimePicker from '@/components/forms/PHTimePicker';
 import { useCreateSpecialtyMutation } from '@/redux/api/specialtiesApi';
+import formatDate from '@/utils/formatDate';
+import formatTime from '@/utils/formatTime';
 import modifiedPayload from '@/utils/modifiedPayload';
 import { Button, CircularProgress, Grid, TextField } from '@mui/material';
 import { FieldValues } from 'react-hook-form';
@@ -19,8 +21,13 @@ const CreateScheduleModal = ({ open, setOpen }: TProps) => {
 	const [createSpecialty, { isLoading }] = useCreateSpecialtyMutation();
 
 	const handleFormSubmit = async (values: FieldValues) => {
-		console.log(values);
-
+		const data = {
+			startDate: formatDate(values.startDate),
+			endDate: formatDate(values.endDate),
+			startTime: formatTime(values.startTime),
+			endTime: formatTime(values.endTime)
+		};
+		console.log(data);
 		// try {
 		// 	const res = await createSpecialty(data).unwrap();
 
@@ -49,16 +56,16 @@ const CreateScheduleModal = ({ open, setOpen }: TProps) => {
 					<Grid item md={12}>
 						<PHDatePicker name='endDate' label='End Date' />
 					</Grid>
-					<Grid item md={12}>
+					<Grid item md={6}>
 						<PHTimePicker name='startTime' label='Start Time' />
 					</Grid>
 
-					<Grid item md={12}>
+					<Grid item md={6}>
 						<PHTimePicker name='endTime' label='End Time' />
 					</Grid>
 					<Grid item md={12}>
 						<Button type='submit' fullWidth disabled={isLoading}>
-							{isLoading ? <CircularProgress size={24} /> : 'Create Specialty'}
+							{isLoading ? <CircularProgress size={24} /> : 'Create Schedule'}
 						</Button>
 					</Grid>
 				</Grid>
