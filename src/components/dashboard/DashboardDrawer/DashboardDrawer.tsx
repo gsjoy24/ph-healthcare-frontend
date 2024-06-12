@@ -1,6 +1,9 @@
 'use client';
+import { useGetUserProfileQuery } from '@/redux/api/userApi';
 import { getUserInfo } from '@/services/auth.services';
 import MenuIcon from '@mui/icons-material/Menu';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { Avatar, Badge, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import AccountMenu from '../AccountMenu/AccountMenu';
 import Sidebar from '../Sidebar/Sidebar';
 
 const drawerWidth = 240;
@@ -16,6 +20,14 @@ const drawerWidth = 240;
 export default function DashboardDrawer({ children }: { children: React.ReactNode }) {
 	const [mobileOpen, setMobileOpen] = React.useState(false);
 	const [isClosing, setIsClosing] = React.useState(false);
+
+	const { data, isLoading } = useGetUserProfileQuery({});
+
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
+
+	const { name, profilePhoto } = data?.data;
 
 	const handleDrawerClose = () => {
 		setIsClosing(true);
@@ -55,10 +67,34 @@ export default function DashboardDrawer({ children }: { children: React.ReactNod
 					>
 						<MenuIcon />
 					</IconButton>
-					<Box>
-						<Typography variant='body2' noWrap component='div' color='gray'>
-							Hi, Gour Saha Joy
-						</Typography>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							width: '100%',
+							alignItems: 'center'
+						}}
+					>
+						<Box>
+							<Typography variant='body2' noWrap component='div' color='gray'>
+								Hi, {name}
+							</Typography>
+						</Box>
+						<Stack direction='row' gap={3} alignItems='center'>
+							<Badge
+								badgeContent={4}
+								color='primary'
+								sx={{
+									bgcolor: '#fff',
+									p: 0.7,
+									borderRadius: '50%'
+								}}
+							>
+								<NotificationsIcon color='action' />
+							</Badge>
+							<Avatar alt={name} src={profilePhoto} />
+							<AccountMenu />
+						</Stack>
 					</Box>
 				</Toolbar>
 			</AppBar>
