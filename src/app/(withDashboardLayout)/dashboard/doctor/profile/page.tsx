@@ -1,139 +1,54 @@
 'use client';
-
-import { useGetUserProfileQuery } from '@/redux/api/userApi';
-import { Box, Container, Grid, Stack, Typography, styled } from '@mui/material';
+import PHAutoFileUploader from '@/components/forms/PHAutoFileUploader';
+import { useGetUserProfileQuery, useUpdateUserProfileMutation } from '@/redux/api/userApi';
+import { Backdrop, CircularProgress, Container, Grid } from '@mui/material';
 import Image from 'next/image';
-
-const InfoBox = styled(Box)(({ theme }) => ({
-	padding: '8px 12px',
-	border: `1px solid ${theme.palette.divider}`,
-	borderRadius: theme.shape.borderRadius,
-	background: '#f7f4fe',
-	width: '100%'
-}));
+import { toast } from 'sonner';
+import DoctorInfo from './Components/DoctorInfo';
 
 const DoctorProfile = () => {
 	const { data, isLoading } = useGetUserProfileQuery({});
+	const [updateUserProfile, { isLoading: isUpdating }] = useUpdateUserProfileMutation();
+
+	const updateProPic = async (file: File) => {
+		const formData = new FormData();
+		formData.append('file', file);
+		formData.append('data', JSON.stringify({}));
+
+		try {
+			const res = await updateUserProfile(formData).unwrap();
+			console.log(res);
+			if (res?.success) {
+				toast.success('Profile Picture Updated Successfully!');
+			} else {
+				toast.error('Failed to Update Profile Picture!');
+			}
+		} catch (error) {}
+	};
 	return (
 		<Container>
-			<Grid container spacing={3}>
-				<Grid item xs={12} md={4}>
-					<Image src={data?.data?.profilePhoto} alt='Doctor' width={300} height={300} className='rounded-lg' />
+			{isLoading ? (
+				<Backdrop sx={{ color: '#fff' }} open={isLoading}>
+					<CircularProgress color='inherit' />
+				</Backdrop>
+			) : (
+				<Grid container spacing={2}>
+					<Grid item xs={12} md={4}>
+						<Image
+							src={data?.data?.profilePhoto}
+							alt={data?.name}
+							width={400}
+							height={400}
+							objectFit='cover'
+							className='rounded-xl'
+						/>
+						<div className='text-center mt-6'>
+							<PHAutoFileUploader label='Upload Profile Picture' onFileUpload={updateProPic} isUpdating={isUpdating} />
+						</div>
+					</Grid>
+					<DoctorInfo data={data?.data} />
 				</Grid>
-				<Grid item xs={12} md={8}>
-					<Typography variant='h4' gutterBottom>
-						{data?.data?.name}
-					</Typography>
-					<Stack
-						gap={2}
-						mb={1}
-						alignItems='center'
-						direction={{
-							xs: 'column',
-							md: 'row'
-						}}
-					>
-						<InfoBox>
-							<Typography variant='caption'>Role</Typography>
-							<Typography variant='body1'>{data?.data?.role}</Typography>
-						</InfoBox>
-						<InfoBox>
-							<Typography variant='caption'>Gender</Typography>
-							<Typography variant='body1'>{data?.data?.gender}</Typography>
-						</InfoBox>
-					</Stack>
-					<Stack
-						gap={2}
-						mb={1}
-						alignItems='center'
-						direction={{
-							xs: 'column',
-							md: 'row'
-						}}
-					>
-						<InfoBox>
-							<Typography variant='caption'>Email</Typography>
-							<Typography variant='body1'>{data?.data?.email}</Typography>
-						</InfoBox>
-						<InfoBox>
-							<Typography variant='caption'>Phone</Typography>
-							<Typography variant='body1'>{data?.data?.phone}</Typography>
-						</InfoBox>
-					</Stack>
-					<Stack
-						gap={2}
-						mb={1}
-						alignItems='center'
-						direction={{
-							xs: 'column',
-							md: 'row'
-						}}
-					>
-						<InfoBox>
-							<Typography variant='caption'>Qualifications</Typography>
-							<Typography variant='body1'>{data?.data?.qualifications}</Typography>
-						</InfoBox>
-						<InfoBox>
-							<Typography variant='caption'>Experience</Typography>
-							<Typography variant='body1'>{data?.data?.experience}</Typography>
-						</InfoBox>
-					</Stack>
-					<Stack
-						gap={2}
-						mb={1}
-						alignItems='center'
-						direction={{
-							xs: 'column',
-							md: 'row'
-						}}
-					>
-						<InfoBox>
-							<Typography variant='caption'>Current Workplace</Typography>
-							<Typography variant='body1'>{data?.data?.currentWorkplace}</Typography>
-						</InfoBox>
-						<InfoBox>
-							<Typography variant='caption'>Designation</Typography>
-							<Typography variant='body1'>{data?.data?.designation}</Typography>
-						</InfoBox>
-					</Stack>
-					<Stack
-						gap={2}
-						mb={1}
-						alignItems='center'
-						direction={{
-							xs: 'column',
-							md: 'row'
-						}}
-					>
-						<InfoBox>
-							<Typography variant='caption'>Registration Number</Typography>
-							<Typography variant='body1'>{data?.data?.registrationNumber}</Typography>
-						</InfoBox>
-						<InfoBox>
-							<Typography variant='caption'>Appointment Fee</Typography>
-							<Typography variant='body1'>{data?.data?.appointmentFee}</Typography>
-						</InfoBox>
-					</Stack>
-					<Stack
-						gap={2}
-						mb={1}
-						alignItems='center'
-						direction={{
-							xs: 'column',
-							md: 'row'
-						}}
-					>
-						<InfoBox>
-							<Typography variant='caption'>Address</Typography>
-							<Typography variant='body1'>{data?.data?.address}</Typography>
-						</InfoBox>
-						<InfoBox>
-							<Typography variant='caption'>Average Rating</Typography>
-							<Typography variant='body1'>{data?.data?.avgRating}</Typography>
-						</InfoBox>
-					</Stack>
-				</Grid>
-			</Grid>
+			)}
 		</Container>
 	);
 };
