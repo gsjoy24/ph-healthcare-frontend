@@ -2,6 +2,7 @@
 import ConfirmModal from '@/components/Shared/ConfirmModal/ConfirmModal';
 import CreateScheduleModal from '@/components/dashboard/CreateScheduleModal/CreateScheduleModal';
 import { useDeleteScheduleMutation, useGetSchedulesQuery } from '@/redux/api/scheduleApi';
+import TSchedule from '@/types/schedule';
 import formatDate from '@/utils/formatDate';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
@@ -12,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 const Schedules = () => {
-	const [schedules, setSchedules] = useState<any[]>([]);
+	const [schedules, setSchedules] = useState<TSchedule[]>([]);
 	const [idToDelete, setIdToDelete] = useState<string>('');
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -20,7 +21,7 @@ const Schedules = () => {
 	const { data, isLoading } = useGetSchedulesQuery({});
 
 	useEffect(() => {
-		const schedules = data?.data?.data?.map((schedule: any) => ({
+		const schedules = data?.data?.data?.map((schedule: TSchedule) => ({
 			id: schedule.id,
 			startDate: formatDate(schedule.startDateTime),
 			endDate: formatDate(schedule.endDateTime),

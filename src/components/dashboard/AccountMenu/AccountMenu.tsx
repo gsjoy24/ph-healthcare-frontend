@@ -1,12 +1,16 @@
 'use client';
+import { getUserInfo } from '@/services/auth.services';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Avatar, Box, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 const AccountMenu = () => {
 	const router = useRouter();
 	const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+
+	const userInfo = getUserInfo();
 
 	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElUser(event.currentTarget);
@@ -45,9 +49,11 @@ const AccountMenu = () => {
 				open={Boolean(anchorElUser)}
 				onClose={handleCloseUserMenu}
 			>
-				<MenuItem onClick={handleCloseUserMenu}>
-					<Typography textAlign='center'>Profile</Typography>
-				</MenuItem>
+				<Link href={`/dashboard/${userInfo?.role}/profile`}>
+					<MenuItem>
+						<Typography textAlign='center'>Profile</Typography>
+					</MenuItem>
+				</Link>
 
 				<MenuItem onClick={handleLogout}>
 					<Typography textAlign='center'>Log Out</Typography>

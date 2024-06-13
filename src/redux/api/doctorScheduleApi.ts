@@ -4,7 +4,7 @@ const doctorScheduleApi = baseApi.injectEndpoints({
 	endpoints: (builder) => ({
 		getDoctorSchedules: builder.query({
 			query: (args: Record<string, any>) => ({
-				url: '/doctor-schedules',
+				url: '/doctor-schedules/me',
 				method: 'GET',
 				params: args
 			})
