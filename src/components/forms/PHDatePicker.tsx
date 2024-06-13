@@ -11,9 +11,10 @@ type TProps = {
 	name: string;
 	required?: boolean;
 	sx?: SxProps;
+	setValue?: React.Dispatch<React.SetStateAction<any>>;
 };
 
-const PHDatePicker = ({ label, name, required, sx }: TProps) => {
+const PHDatePicker = ({ label, name, required, sx, setValue }: TProps) => {
 	const { control, formState } = useFormContext();
 
 	return (
@@ -38,6 +39,11 @@ const PHDatePicker = ({ label, name, required, sx }: TProps) => {
 								fullWidth: true,
 								size: 'small',
 								error: !!error?.message,
+								onChange: (e) => {
+									if (setValue) {
+										setValue(e.target.value);
+									}
+								},
 								helperText: error?.message
 									? `${(
 											<Box
