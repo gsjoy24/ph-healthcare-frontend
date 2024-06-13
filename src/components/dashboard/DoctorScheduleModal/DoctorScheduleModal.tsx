@@ -1,5 +1,6 @@
 import PHModal from '@/components/Shared/PHModal/PHModal';
 import PHForm from '@/components/forms/PHForm';
+import { useCreateDoctorScheduleMutation } from '@/redux/api/doctorScheduleApi';
 import { useCreateScheduleMutation, useGetSchedulesQuery } from '@/redux/api/scheduleApi';
 import { Button, CircularProgress, Grid } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -17,10 +18,8 @@ type TProps = {
 };
 
 const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
-	const [createSchedule, { isLoading }] = useCreateScheduleMutation();
 	const [date, setDate] = useState<Dayjs | null>(dayjs(new Date()));
 	const [selectedScheduleIds, setSelectedScheduleIds] = useState<string[]>([]);
-	console.log(selectedScheduleIds);
 	const query: Record<string, any> = {};
 
 	if (date) {
@@ -30,21 +29,26 @@ const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
 
 	const { data } = useGetSchedulesQuery(query);
 
-	const handleFormSubmit = async (values: FieldValues) => {
-		// convert date to iso string
-		// const startDate = new Date(values.startDate).toISOString();
-		// const endDate = new Date(values.endDate).toISOString();
-		// try {
-		// 	const res = await createSchedule(data).unwrap();
-		// 	if (res?.success) {
-		// 		toast.success('Schedule created successfully!');
-		// 		setOpen(false);
-		// 	} else {
-		// 		toast.error(res?.message || 'Failed to create schedule');
-		// 	}
-		// } catch (error) {
-		// 	console.log(error);
-		// }
+	const [createDoctorSchedule, { isLoading }] = useCreateDoctorScheduleMutation();
+	const handleFormSubmit = async () => {
+		if (selectedScheduleIds.length === 0) {
+			toast.error('Please select at least one schedule');
+			return;
+		}
+
+		try {
+			const res = await createDoctorSchedule({
+				schedules: selectedScheduleIds
+			}).unwrap();
+			if (res?.success) {
+				toast.success('Schedule created successfully!');
+				setOpen(false);
+			} else {
+				toast.error(res?.message || 'Failed to create schedule');
+			}
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (

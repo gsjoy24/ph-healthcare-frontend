@@ -33,3 +33,10 @@ const doctorScheduleApi = baseApi.injectEndpoints({
 		})
 	})
 });
+
+export const {
+	useGetDoctorSchedulesQuery,
+	useGetDoctorScheduleQuery,
+	useCreateDoctorScheduleMutation,
+	useDeleteDoctorScheduleMutation
+} = doctorScheduleApi;
