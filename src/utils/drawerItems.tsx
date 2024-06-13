@@ -78,7 +78,7 @@ export const drawerItems = (role: TUserRole): TDrawerItem[] => {
 				{
 					title: 'Appointments',
 					path: `${role}/appointment`,
-					icon: CalendarMonthIcon
+					icon: GroupIcon
 				}
 			);
 			break;
